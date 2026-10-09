@@ -11,7 +11,15 @@ const companies={
 };
 const $=s=>document.querySelector(s);
 const makeId=()=>globalThis.crypto&&typeof globalThis.crypto.randomUUID==='function'?globalThis.crypto.randomUUID():`person-${Date.now()}-${Math.random().toString(36).slice(2,10)}`;
-let state=load()||{company:'Applebridge Family',tiers:4,people:[]};
+let state=load()||{
+  company:'Applebridge Family',
+  title:'Company Organigram',
+  tiers:4,
+  people:[]
+};
+if(typeof state.title!=='string'){
+  state.title='Company Organigram';
+}
 let zoom=1;
 
 function load(){try{return JSON.parse(localStorage.getItem('applebridge-organigram'));}catch{return null}}
