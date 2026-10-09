@@ -27,11 +27,18 @@ function save(){localStorage.setItem('applebridge-organigram',JSON.stringify(sta
 function init(){
   Object.keys(companies).forEach(name=>$('#companySelect').add(new Option(name,name)));
   for(let i=1;i<=8;i++){$('#tierSelect').add(new Option(`${i} tier${i>1?'s':''}`,i));}
-  $('#companySelect').value=state.company;$('#tierSelect').value=state.tiers;
+ $('#companySelect').value=state.company;
+$('#organigramTitle').value=state.title;
+$('#tierSelect').value=state.tiers;
   bind();render();
 }
 function bind(){
   $('#companySelect').onchange=e=>{state.company=e.target.value;save();render()};
+  $('#organigramTitle').oninput=e=>{
+  state.title=e.target.value;
+  renderTitle();
+  save();
+};
   $('#tierSelect').onchange=e=>{state.tiers=+e.target.value;state.people.forEach(p=>p.tier=Math.min(p.tier,state.tiers));save();render()};
   $('#staffForm').onsubmit=submitPerson;$('#cancelEdit').onclick=resetForm;
   $('#exportBtn').onclick=()=>{showToast('Opening print options — choose “Save as PDF”');setTimeout(()=>window.print(),350)};
@@ -50,8 +57,16 @@ function submitPerson(e){
 function editPerson(id){const p=state.people.find(x=>x.id===id);if(!p)return;$('#staffId').value=p.id;$('#forename').value=p.forename;$('#surname').value=p.surname;$('#position').value=p.position;tierOptions();$('#staffTier').value=p.tier;reportingOptions(p.id);$('#reportsTo').value=p.reportsTo||'';$('#formHeading').textContent='Edit team member';$('#submitStaff').textContent='Save changes';$('#cancelEdit').classList.remove('hidden');$('.control-panel').scrollTo({top:160,behavior:'smooth'});}
 function removePerson(id){const p=state.people.find(x=>x.id===id);if(!confirm(`Remove ${p.forename} ${p.surname}?`))return;state.people=state.people.filter(x=>x.id!==id).map(x=>x.reportsTo===id?{...x,reportsTo:null}:x);save();render();}
 function resetForm(){ $('#staffForm').reset();$('#staffId').value='';$('#formHeading').textContent='Add a person';$('#submitStaff').textContent='Add to organigram';$('#cancelEdit').classList.add('hidden');tierOptions();reportingOptions();}
+function renderTitle(){
+  const title=state.title.trim()||'Company Organigram';
+
+  $('#organigramTitlePreview').textContent=title;
+
+  $('#footerTitle').textContent=
+    `${state.company.toUpperCase()} · ${title.toUpperCase()}`;
+}
 function render(){
-  const c=companies[state.company];document.documentElement.style.setProperty('--accent',c.color);$('#companyName').textContent=state.company;$('#companyLogo').src=c.logo;$('#footerLogo').src=c.logo;$('#footerTitle').textContent=`${state.company.toUpperCase()} · COMPANY ORGANIGRAM`;$('#footerDate').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
+  const c=companies[state.company];document.documentElement.style.setProperty('--accent',c.color);$('#companyName').textContent=state.company;$('#companyLogo').src=c.logo;$('#footerLogo').src=c.logo;renderTitle();$('#footerDate').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
   tierOptions();reportingOptions($('#staffId').value);renderPeople();renderChart();save();
 }
 function renderPeople(){const list=$('#peopleList');$('#peopleCount').textContent=state.people.length;if(!state.people.length){list.innerHTML='<div class="people-empty">No team members added yet.</div>';return}list.innerHTML=state.people.slice().sort((a,b)=>a.tier-b.tier||a.surname.localeCompare(b.surname)).map(p=>`<div class="person-row"><div class="person-avatar">${esc(p.forename[0]+p.surname[0])}</div><div><strong>${esc(p.forename)} ${esc(p.surname)}</strong><small>${esc(p.position)} · Tier ${p.tier}</small></div><div class="row-actions"><button data-edit="${p.id}">Edit</button><button data-delete="${p.id}">×</button></div></div>`).join('');list.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editPerson(b.dataset.edit));list.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>removePerson(b.dataset.delete));}
