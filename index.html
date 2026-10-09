@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Create, edit and export branded Applebridge company organigrams." />
+  <title>Applebridge Organigram Builder</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand-lockup">
+      <div class="brand-mark">AB</div>
+      <div><p class="eyebrow">Applebridge Family</p><h1>Organigram Builder</h1></div>
+    </div>
+    <div class="header-actions">
+      <span id="saveStatus" class="save-status">Saved</span>
+      <button id="clearBtn" class="button button-ghost">New chart</button>
+      <button id="exportBtn" class="button button-primary">Export PDF</button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <aside class="control-panel">
+      <section class="panel-section">
+        <div class="step-label">01 · Chart settings</div>
+        <label>Company<select id="companySelect"></select></label>
+        <label>Number of tiers<select id="tierSelect"></select></label>
+      </section>
+
+      <section class="panel-section staff-editor">
+        <div class="section-heading">
+          <div><div class="step-label">02 · Team members</div><h2 id="formHeading">Add a person</h2></div>
+          <button id="cancelEdit" class="text-button hidden">Cancel edit</button>
+        </div>
+        <form id="staffForm">
+          <input id="staffId" type="hidden" />
+          <div class="field-row">
+            <label>Forename<input id="forename" required autocomplete="off" placeholder="e.g. Alex" /></label>
+            <label>Surname<input id="surname" required autocomplete="off" placeholder="e.g. Taylor" /></label>
+          </div>
+          <label>Position<input id="position" required autocomplete="off" placeholder="e.g. Operations Director" /></label>
+          <div class="field-row">
+            <label>Tier<select id="staffTier"></select></label>
+            <label>Reports to<select id="reportsTo"></select></label>
+          </div>
+          <button class="button button-primary button-full" type="submit" id="submitStaff">Add to organigram</button>
+        </form>
+      </section>
+
+      <section class="panel-section people-section">
+        <div class="section-heading"><div><div class="step-label">People</div><h2><span id="peopleCount">0</span> team members</h2></div></div>
+        <div id="peopleList" class="people-list"></div>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <div class="workspace-toolbar">
+        <div><span class="status-dot"></span> Live preview</div>
+        <div class="zoom-controls"><button id="zoomOut" aria-label="Zoom out">−</button><span id="zoomValue">100%</span><button id="zoomIn" aria-label="Zoom in">+</button></div>
+      </div>
+      <div id="chartViewport" class="chart-viewport">
+        <article id="printSheet" class="print-sheet">
+          <div class="chart-banner">
+            <img id="companyLogo" alt="Company logo" />
+            <div class="chart-title"><span id="companyName">Applebridge Family</span><strong>Company Organigram</strong></div>
+          </div>
+          <div id="chartArea" class="chart-area">
+            <svg id="connectors" class="connectors" aria-hidden="true"></svg>
+            <div id="tiers" class="tiers"></div>
+            <div id="emptyState" class="empty-state"><div class="empty-icon">＋</div><h3>Start building your team</h3><p>Add your first person using the form on the left.</p></div>
+          </div>
+          <footer class="chart-footer"><img id="footerLogo" alt="Company logo" /><span id="footerTitle">COMPANY ORGANIGRAM</span><span id="footerDate"></span></footer>
+        </article>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
