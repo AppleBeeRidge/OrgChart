@@ -1,16 +1,7 @@
 APPLEBRIDGE ORGANIGRAM BUILDER
 ================================
 
-SITEGROUND DEPLOYMENT
 
-1. Sign in to SiteGround and open Site Tools for the chosen domain.
-2. Open Site > File Manager.
-3. Open the public_html folder.
-4. Upload the contents of this ZIP file into public_html.
-5. Ensure index.html is directly inside public_html, not inside another folder.
-6. Visit the domain and use Ctrl + F5 if an older version is cached.
-
-The app is static and does not require WordPress, a database or plugins.
 
 IMPORTANT
 
