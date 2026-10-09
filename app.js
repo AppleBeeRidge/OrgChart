@@ -1,13 +1,13 @@
 const companies={
-  'Applebridge Family':{color:'#DC4405',logo:'assets/family.png'},
-  'Applebridge Geoenvironmental':{color:'#E86A99',logo:'assets/geo.png'},
-  'AD Plant Hire':{color:'#0072CE',logo:'assets/ad-plant.png'},
-  'ZTL Contracting':{color:'#97D700',logo:'assets/ztl.png'},
-  'Applebridge':{color:'#00B2A9',logo:'assets/applebridge.png'},
-  'Hughes Bros':{color:'#F2A900',logo:'assets/hughes.png'},
-  'Applebridge Utilities':{color:'#007C58',logo:'assets/utilities.png'},
-  'Jig':{color:'#F2A900',logo:'assets/jig.png'},
-  'Tarcon':{color:'#829995',logo:'assets/tarcon.png'}
+  'Applebridge Family':{color:'#DC4405',logo:'family.png'},
+  'Applebridge Geoenvironmental':{color:'#E86A99',logo:'geo.png'},
+  'AD Plant Hire':{color:'#0072CE',logo:'ad-plant.png'},
+  'ZTL Contracting':{color:'#97D700',logo:'ztl.png'},
+  'Applebridge':{color:'#00B2A9',logo:'applebridge.png'},
+  'Hughes Bros':{color:'#F2A900',logo:'hughes.png'},
+  'Applebridge Utilities':{color:'#007C58',logo:'utilities.png'},
+  'Jig':{color:'#F2A900',logo:'jig.png'},
+  'Tarcon':{color:'#829995',logo:'tarcon.png'}
 };
 const $=s=>document.querySelector(s);
 const makeId=()=>globalThis.crypto&&typeof globalThis.crypto.randomUUID==='function'?globalThis.crypto.randomUUID():`person-${Date.now()}-${Math.random().toString(36).slice(2,10)}`;
